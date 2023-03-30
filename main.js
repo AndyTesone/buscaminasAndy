@@ -1,7 +1,7 @@
 //Constantes del juego
-const COLUMNAS = 10;
-const FILAS = 10;
-const CANTIDAD_MINAS = 10;
+const COLUMNAS = 3;
+const FILAS = 3;
+const CANTIDAD_MINAS = 1;
 
 //Variables con colores para los casilleros (NO se pudieron declarar como constantes ya que  la fn color sólo está definida para el setup y el draw)
 var COLOR_CASILLERO_CON_MINA;
@@ -17,6 +17,7 @@ var hizoClick = false;
 var casillerosSinDescubrir;
 
 
+
 function setup()
 {
   createCanvas(500, 500);   //crea un lienzo o panel donde estará el juego. El primer parámetro es el ancho y el segundo el alto del lienzo.
@@ -26,7 +27,8 @@ function setup()
   COLOR_CASILLERO_CON_MINA = color("#FF0000");
   COLOR_CASILLERO_SIN_MINA = color("#1CC932");
   COLOR_CASILLERO_MARCADO = color("#278EF2");
-  ponerMinaCasillero(5,5);
+  ponerMinaCasillero(0,0);
+  casillerosSinDescubrir = FILAS*COLUMNAS;
   // Modificar/completar
 }
 
@@ -34,31 +36,42 @@ function setup()
 
 
 
-function draw() {
+function draw()
+{
   if (hizoClick == true)
   {
-    console.log(tableroDeMinas);
-    pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_SIN_MINA); //pinta el casillero clickeado. Modificar/completar
+    if (mouseButton == RIGHT)
+    {
+      pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_MARCADO);
+    }
+    console.log(casillerosSinDescubrir);   
     if (mouseButton == LEFT)
     {
-        if(tieneMinaCasillero(columnaPresionada, filaPresionada)){
+        if(tieneMinaCasillero(columnaPresionada, filaPresionada))
+        {
           pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_CON_MINA);
-         perder();
-         pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_CON_MINA);
-
+          perder();
+        }
+        else
+        {
+          pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_SIN_MINA); //pinta el casillero clickeado. Modificar/completar
+          descubrirCasillero(columnaPresionada, filaPresionada)
+          if( ganoElJuego() )
+            ganar();
         }
       }
-    }  
-
-    
     hizoClick = false;  //Indico que ya "procesé" el click del usuario. NO modificar
-  }
+  }  
+}
 
 
 
 function ganoElJuego()
 {
-  return false;   //Esto hace que NUNCA gane el juego. Modificar/completar
+  if(casillerosSinDescubrir == CANTIDAD_MINAS)
+    return true;
+  else
+    return false;   //Esto hace que NUNCA gane el juego. Modificar/completar
 }
 
 function ponerMinasTablero()
