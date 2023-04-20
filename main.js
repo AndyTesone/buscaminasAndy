@@ -24,13 +24,15 @@ function setup()
 {
   createCanvas(500, 500);   //crea un lienzo o panel donde estará el juego. El primer parámetro es el ancho y el segundo el alto del lienzo.
   laMagiaDeLosProfes();
-  ponerMinasTablero();
+  
   //Asigno colores que se utilizarán. La fn color solo está definida para el setup y el draw
   COLOR_CASILLERO_CON_MINA = color("#FF0000");
   COLOR_CASILLERO_SIN_MINA = color("#1CC932");
   COLOR_CASILLERO_MARCADO = color("#278EF2");
-  casillerosSinDescubrir = FILAS*COLUMNAS;
+  casillerosSinDescubrir = FILAS*COLUMNAS-1;
   // Modificar/completar
+
+  ponerMinasTablero();
 }
 
 
@@ -51,6 +53,7 @@ function draw()
         if(tieneMinaCasillero(columnaPresionada, filaPresionada))
         {
           pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_CON_MINA);
+          mostrarMinas();
           perder();
         }
         else
@@ -77,28 +80,40 @@ function ganoElJuego()
 
 function ponerMinasTablero()
 {
-  for (let contMinas = 0; contMinas < CANTIDAD_MINAS; contMinas++) { 
+  
+  for (let contMinas = 0; contMinas < CANTIDAD_MINAS; contMinas++)
+  { 
     let filaAleatoria = getRandomInt(FILAS);
     let columnaAleatoria = getRandomInt(COLUMNAS);
-    ponerMinaCasillero(columnaAleatoria, filaAleatoria);
     console.log("Las minas estan en la columna: " + columnaAleatoria + " y en la fila: " + filaAleatoria);
+    if(tieneMinaCasillero(columnaAleatoria, filaAleatoria))
+      contMinas--;
+    else
+      ponerMinaCasillero(columnaAleatoria, filaAleatoria);
+    
   }
   
   //poner bien una mina
   //obetener dos numeros al azar
   //llamar a poner mina casillero con esos numeros al azar
   //hacer que se repita diez veces(averiguar como repetir)
-
+  
 }
 
 function mostrarMinas()
 {
-  // Modificar/completar
+  for(let contColumnas = 0; contColumnas < COLUMNAS; contColumnas++){
+    for(let contFilas = 0; contFilas < FILAS; contFilas++){
+      if(tieneMinaCasillero(contColumnas, contFilas)){
+        pintarCasillero(contColumnas, contFilas, COLOR_CASILLERO_CON_MINA);
+      }
+    }  
+  }
 }
 
 function contarMinasAlrededor(columna, fila)
 {
-  return 9;   //Esto hace que SIEMPRE cuente 9 minas alrededor. Modificar/completar
+  return ;   //Esto hace que SIEMPRE cuente 9 minas alrededor. Modificar/completar
 }
 
 // Notesé que también en este caso `min` será incluido y `max` excluido
