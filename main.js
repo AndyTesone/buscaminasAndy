@@ -111,9 +111,12 @@ function mostrarMinas()
   }
 }
 
-function contarMinasAlrededor(columna, fila)
-{
-  return ;   //Esto hace que SIEMPRE cuente 9 minas alrededor. Modificar/completar
+function contarMinasAlrededor(columna, fila){
+  let contMinas = 0;//contador de minas
+  for( let x = columna - 1; x <= columna + 1; x++){//aca creo la variable x que equivale  las columnas -1 y +1, esto me indicara si tiene mina el casillero de la derecha y izquiera del presionado.
+    for(let y = fila - 1; y <= fila + 1; y++)//lo mismo pero con las filas.
+    if (tieneMinaCasillero(x, y));
+    return ;
 }
 
 // Notesé que también en este caso `min` será incluido y `max` excluido
