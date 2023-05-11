@@ -1,7 +1,7 @@
 //Constantes del juego
-const COLUMNAS = 3;
-const FILAS = 3;
-const CANTIDAD_MINAS = 2;
+const COLUMNAS = 20;
+const FILAS = 20;
+const CANTIDAD_MINAS = 10;
 
 //Variables con colores para los casilleros (NO se pudieron declarar como constantes ya que  la fn color sólo está definida para el setup y el draw)
 var COLOR_CASILLERO_CON_MINA;
@@ -29,7 +29,7 @@ function setup()
   COLOR_CASILLERO_CON_MINA = color("#FF0000");
   COLOR_CASILLERO_SIN_MINA = color("#1CC932");
   COLOR_CASILLERO_MARCADO = color("#278EF2");
-  casillerosSinDescubrir = FILAS*COLUMNAS-1;
+  casillerosSinDescubrir = FILAS*COLUMNAS;
   // Modificar/completar
 
   ponerMinasTablero();
@@ -111,12 +111,50 @@ function mostrarMinas()
   }
 }
 
-function contarMinasAlrededor(columna, fila){
+/*function contarMinasAlrededor(columna, fila){
   let contMinas = 0;//contador de minas
   for( let x = columna - 1; x <= columna + 1; x++){//aca creo la variable x que equivale  las columnas -1 y +1, esto me indicara si tiene mina el casillero de la derecha y izquiera del presionado.
     for(let y = fila - 1; y <= fila + 1; y++)//lo mismo pero con las filas.
     if (tieneMinaCasillero(x, y));
     return ;
+}
+*/
+
+function contarMinasAlrededor(columna, fila){
+  let contMinas = 0;
+  if (tieneMinaCasillero(columna, fila-1)){
+    contMinas++;
+  }
+
+  if (tieneMinaCasillero(columna, fila+1)){
+    contMinas++;
+  }
+
+  if (tieneMinaCasillero(columna-1, fila+1)){
+    contMinas++;
+  }
+
+  if (tieneMinaCasillero(columna-1, fila)){
+    contMinas++;
+  }
+
+  if (tieneMinaCasillero(columna-1, fila-1)){
+    contMinas++;
+  }
+
+  if (tieneMinaCasillero(columna+1, fila-1)){
+    contMinas++;
+  }
+
+  if (tieneMinaCasillero(columna+1, fila)){
+    contMinas++;
+  }
+  if (tieneMinaCasillero(columna+1, fila+1)){
+    contMinas++;
+  }
+  return contMinas;
+
+
 }
 
 // Notesé que también en este caso `min` será incluido y `max` excluido
